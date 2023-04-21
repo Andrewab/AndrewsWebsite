@@ -17,27 +17,34 @@ function PaperBlock () {
                 const data = await response.json();
                 setData(data);
                 setLoading(false);
+            } catch(error) {
+                setError(error);
+                setLoading(false);
             }
-                catch(error) {
-                    setError(error);
-                    setLoading(false);
-                }
-            }
-            fetchData();
-        }, []);
-        if(loading) {
-            return <div>Loading..</div>
         }
-        if(error) {
-            return <div>Error: {error.message}</div>
-        }
-        return (
+        fetchData();
+    }, []);
+
+    if(loading) {
+        return <div>Loading..</div>
+    }
+    if(error) {
+        return <div>Error: {error.message}</div>
+    }
+
+    return (
         <div className={philPageStyles.paperWrapper}>
-        {data.map(item => (
-            <div className={philPageStyles.paperBlock}><Link className={philPageStyles.paperLink} href={item.link}>{item.title}</Link><br></br><br></br>{item.body}</div>
-        ))}
+            {data.map((item, index) => (
+                <div key={index} className={philPageStyles.paperBlock}>
+                    <Link className={philPageStyles.paperLink} href={item.link}>
+                        {item.title}
+                    </Link>
+                    <br></br><br></br>
+                    {item.body}
+                </div>
+            ))}
         </div>
-        );
+    );
 }
 
-export default PaperBlock
+export default PaperBlock;
